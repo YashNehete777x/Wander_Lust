@@ -32,9 +32,14 @@ app.get("/", (req, res) => {
 });
 
 //Index Route(Shows all listings)
+// Correct syntax of handling promise by async-await is try and catch block
 app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
+  try{
+    const allListings = await Listing.find({});
+    res.render("listings/index.ejs", { allListings });
+  }catch(err){
+    console.log(err);
+  }
 });
 
 //New Route(Ejs form for creating new listing)
@@ -45,38 +50,59 @@ app.get("/listings/new", (req, res) => {
 //Show Route(Shows particular listing)
 app.get("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
+  try{
+    const listing = await Listing.findById(id);
+    res.render("listings/show.ejs", { listing });
+  }catch(err){
+    console.log(err);
+  }
 });
 
 //Create Route(After new.ejs form submission creating new listing in db)
 app.post("/listings", async (req, res) => {
     // const {title,description,image,...} = req.body; oR
   const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
+  try{
+    await newListing.save();
+    res.redirect("/listings");
+  }catch(err){
+    console.log(err);
+  }
 });
 
 //Edit Route(Form for editing)
 app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit.ejs", { listing });
+  try{
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", { listing });
+  }catch(err){
+    console.log(err);
+  }
 });
 
 //Update Route(Taking data of edit forma and updating)
 app.put("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect(`/listings/${id}`);
+  try{
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Spread operator used Here(...) 
+    res.redirect(`/listings/${id}`);
+  }catch(err){
+    console.log(err);
+  }
 });
 
 //Delete Route(deleting particular listing)
 app.delete("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  console.log(deletedListing);
-  res.redirect("/listings");
+    try{
+        let deletedListing = await Listing.findByIdAndDelete(id);
+        console.log(deletedListing);
+        res.redirect("/listings");
+    }
+    catch(err){
+        console.log(err);
+    }
 });
 
 
