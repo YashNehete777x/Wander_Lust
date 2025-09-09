@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WanderLust</title>
-  </head>
-  <body>
+<% layout("layouts/boilerplate") %> <!--This layout function searches for file directly in a views folder hence dont start normally by ./ or ../ as we do in require function-->
+
+<body>
     <h3>All Listings</h3>
     <form method="GET" action="/listings/new">
       <button>Create New Listing</button>
@@ -15,5 +10,4 @@
       <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
       <% } %>
     </ul>
-  </body>
-</html>
+</body>
