@@ -1,6 +1,7 @@
 <% layout("layouts/boilerplate") %>
 
-<body>
+<!--Initially-->
+<!-- <body>
     <h3>Listing Details :</h3>
     <ul>
       <li><%= listing.title %></li>
@@ -15,4 +16,51 @@
     <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
       <button>Delete this listing</button>
     </form>
+</body> -->
+
+<!--After card of bootstrap-->
+<!-- <body>
+    <div class="card" style="width: 18rem;">
+    <img src="<%= listing.image %>" class="card-img-top" alt="image">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</body> -->
+
+<!--After modifying bootstrap card-->
+<body>
+  <div class="container my-5 d-flex justify-content-center">
+    <div class="card custom-show-card">
+      <img src="<%= listing.image %>" class="card-img-top" alt="image">
+
+      <div class="card-body">
+        <h5 class="card-title"><%= listing.title %></h5>
+        <p class="card-text"><%= listing.description %></p>
+      </div>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+        <li class="list-group-item"><%= listing.location %></li>
+        <li class="list-group-item"><%= listing.country %></li>
+      </ul>
+
+      <div class="card-body custom-btn-group">
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger rounded-pill m-0">Edit</a>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline m-0">
+          <button class="btn btn-dark rounded-pill m-0">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>

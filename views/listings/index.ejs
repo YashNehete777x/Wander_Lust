@@ -1,13 +1,74 @@
 <% layout("layouts/boilerplate") %> <!--This layout function searches for file directly in a views folder hence dont start normally by ./ or ../ as we do in require function-->
 
 <body>
-    <h3>All Listings</h3>
-    <form method="GET" action="/listings/new">
-      <button>Create New Listing</button>
-    </form>
-    <ul>
+
+<!-- <h3>All Listings</h3> -->
+
+  <!-- <form method="GET" action="/listings/new">
+    <button>Create New Listing</button>
+  </form> -->
+
+
+
+  <!--Bootstrap Code for cards (original)-->
+
+  <!-- <div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    </div>
+  </div> -->
+
+
+<!--Bootstrap Card moodified -->
+
+<!-- <% for(let listing of allListings) { %>
+<div class="card" style="width: 18rem;">
+  <img src="<%= listing.image %>" class="card-img-top" alt="listing_image">
+  <div class="card-body">
+    <p class="card-text">
+      <%= listing.title %>
+      <br>
+      &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+    </p>
+  </div>
+</div>
+<% } %> -->
+
+<!--Botstrap card modified (made changes so that we can add our custom styling)-->
+<!--try all of this modified code one by one to see the diffreance-->
+
+<body>
+
+  <div class="container my-4">
+    <h3 class="mb-4">All Listings</h3>
+
+    <div class="row">
       <% for(let listing of allListings) { %>
-      <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+              <img src="<%= listing.image %>" class="card-img-top" alt="listing_image">
+              <div class="card-body">
+                <h5 class="card-title"><%= listing.title %></h5>
+                <p class="card-text">
+                  &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
       <% } %>
-    </ul>
+    </div>
+  </div>
+
+</body>
+
+
+  <!-- <ul>
+    <!-- <% for(let listing of allListings) { %>
+      <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
+    <% } %> -->
+  </ul> -->
+
 </body>

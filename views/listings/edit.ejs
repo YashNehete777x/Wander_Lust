@@ -1,6 +1,7 @@
 <% layout("layouts/boilerplate") %> <!--This is a logic thats why written in <% %>-->
 
-<body>
+<!--Initially-->
+<!-- <body>
     <h3>Edit your Listing</h3>
     <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
       <input name="listing[title]" value="<%= listing.title %>" type="text" />
@@ -27,4 +28,97 @@
       <br /><br />
       <button>Edit</button>
     </form>
+</body> -->
+
+<!--Implemented just like new form -->
+<body>
+  <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <h3 class="mb-4">Edit Listing</h3>
+      
+      <form method="POST" action="/listings/<%= listing.id %>">
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="title" 
+            name="listing[title]" 
+            placeholder="<%=listing.title%>" 
+            required
+          >
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea 
+            class="form-control" 
+            id="description" 
+            name="listing[description]" 
+            rows="2" 
+            placeholder="<%=listing.description%>" 
+            required
+          ></textarea>
+        </div>
+
+        <!-- Image -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Image URL</label>
+          <input 
+            type="url" 
+            class="form-control" 
+            id="image" 
+            name="listing[image]" 
+            placeholder="<%=listing.image%>" 
+            required
+          >
+        </div>
+
+        <!-- Price + Country (same row) -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="price" class="form-label">Price per night (₹)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="price" 
+              name="listing[price]" 
+              placeholder="&#8377; <%= listing.price.toLocaleString("en-IN") %>" 
+              required
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="country" class="form-label">Country</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="country" 
+              name="listing[country]" 
+              placeholder="<%= listing.country %>" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="location" 
+            name="listing[location]" 
+            placeholder="<%= listing.location %>" 
+            required
+          >
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary">Edit</button>
+      </form>
+    </div>
+  </div>
 </body>
+

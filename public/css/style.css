@@ -1,0 +1,170 @@
+/* Import Jakarta font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+
+/* Layout basics */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+}
+
+main {
+  flex: 1;
+}
+
+/* Navbar */
+.custom-navbar {
+  background-color: #ffffff;
+}
+
+.custom-navbar .navbar-brand {
+  color: #ff5a5f !important;
+  font-size: 1.5rem;
+}
+
+.custom-navbar .brand-icon {
+  color: #ff5a5f;
+  font-size: 1.6rem;
+}
+
+.custom-navbar .nav-link {
+  font-weight: 500;
+  color: #555 !important;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link.active {
+  color: #ff5a5f !important;
+}
+
+/* Footer */
+.custom-footer {
+  background-color: #e0e0e0; 
+  padding: 20px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  border-top: 1px solid #ccc;
+}
+
+.custom-footer .footer-icons {
+  margin-bottom: 10px;
+}
+
+.custom-footer .footer-icons a {
+  margin: 0 8px;
+  font-size: 1.2rem;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.custom-footer .footer-icons a:hover {
+  color: #ff5a5f;
+}
+
+.custom-footer .footer-text {
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.custom-footer .footer-links a {
+  margin: 0 10px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.custom-footer .footer-links a:hover {
+  color: #ff5a5f;
+}
+
+/* Listing cards */
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* new Form */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  background-color: #e04850; 
+  border-color: #e04850;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+}
+
+
+/* Show card styling */
+.custom-show-card {
+  max-width: 600px;       
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.custom-show-card .card-img-top {
+  height: 250px;
+  object-fit: cover;
+}
+
+.custom-show-card .card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #222;
+}
+
+.custom-show-card .card-text {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.custom-show-card .list-group-item {
+  border: none;
+  border-top: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.custom-btn-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px; 
+}
+
+
+
+
+
