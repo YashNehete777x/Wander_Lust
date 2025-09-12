@@ -36,7 +36,7 @@
     <div class="col-lg-6 col-md-8 col-sm-10">
       <h3 class="mb-4">Edit Listing</h3>
       
-      <form method="POST" action="/listings/<%= listing.id %>">
+      <form method="POST" action="/listings/<%= listing.id %>?_method=PUT">
         <!-- Title -->
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -45,8 +45,7 @@
             class="form-control" 
             id="title" 
             name="listing[title]" 
-            placeholder="<%=listing.title%>" 
-            required
+            value="<%=listing.title%>"             
           >
         </div>
 
@@ -58,8 +57,7 @@
             id="description" 
             name="listing[description]" 
             rows="2" 
-            placeholder="<%=listing.description%>" 
-            required
+            value="<%=listing.description%>"           
           ></textarea>
         </div>
 
@@ -67,12 +65,11 @@
         <div class="mb-3">
           <label for="image" class="form-label">Image URL</label>
           <input 
-            type="url" 
+            type="test" 
             class="form-control" 
             id="image" 
             name="listing[image]" 
-            placeholder="<%=listing.image%>" 
-            required
+            value="<%=listing.image%>"             
           >
         </div>
 
@@ -85,8 +82,7 @@
               class="form-control" 
               id="price" 
               name="listing[price]" 
-              placeholder="&#8377; <%= listing.price.toLocaleString("en-IN") %>" 
-              required
+              value="&#8377; <%= listing.price.toLocaleString("en-IN") %>"            
             >
           </div>
           <div class="col-md-6">
@@ -96,8 +92,7 @@
               class="form-control" 
               id="country" 
               name="listing[country]" 
-              placeholder="<%= listing.country %>" 
-              required
+              value="<%= listing.country %>" 
             >
           </div>
         </div>
@@ -110,13 +105,12 @@
             class="form-control" 
             id="location" 
             name="listing[location]" 
-            placeholder="<%= listing.location %>" 
-            required
+            value="<%= listing.location %>" 
           >
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </form>
     </div>
   </div>

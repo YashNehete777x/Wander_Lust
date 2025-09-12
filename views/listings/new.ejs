@@ -46,7 +46,6 @@
             id="title" 
             name="listing[title]" 
             placeholder="Enter a catchy title" 
-            required
           >
         </div>
 
@@ -58,8 +57,7 @@
             id="description" 
             name="listing[description]" 
             rows="2" 
-            placeholder="Enter description" 
-            required
+            placeholder="Enter description"           
           ></textarea>
         </div>
 
@@ -67,12 +65,11 @@
         <div class="mb-3">
           <label for="image" class="form-label">Image URL</label>
           <input 
-            type="url" 
+            type="text"                           
             class="form-control" 
             id="image" 
             name="listing[image]" 
-            placeholder="Enter image link" 
-            required
+            placeholder="Enter image link"          
           >
         </div>
 
@@ -85,8 +82,7 @@
               class="form-control" 
               id="price" 
               name="listing[price]" 
-              placeholder="1200" 
-              required
+              placeholder="1200"          
             >
           </div>
           <div class="col-md-6">
@@ -96,8 +92,7 @@
               class="form-control" 
               id="country" 
               name="listing[country]" 
-              placeholder="India" 
-              required
+              placeholder="India"               
             >
           </div>
         </div>
@@ -110,8 +105,7 @@
             class="form-control" 
             id="location" 
             name="listing[location]" 
-            placeholder="Nashik,Maharashtra" 
-            required
+            placeholder="Nashik,Maharashtra"             
           >
         </div>
 
@@ -121,3 +115,6 @@
     </div>
   </div>
 </body>
+
+
+<!--Checkout the things like later      type="url"  required keyword beacuse these things are kind of frontend shortcts for validation -->
