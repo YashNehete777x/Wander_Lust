@@ -36,7 +36,8 @@
     <div class="col-lg-6 col-md-8 col-sm-10">
       <h3 class="mb-4">Create a New Listing</h3>
       
-      <form method="POST" action="/listings">
+      <form method="POST" action="/listings" novalidate class="needs-validation"> <!--- By writing nonvalidate keyword we are nonvalidating the browser default implemantation(means that brower messages when we does not fill the information...)-->
+        <!--Also we have added a needa-validation class to which script.js is connected (Result->we have obatained functionality which is now same in any browser)-->
         <!-- Title -->
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -45,8 +46,10 @@
             class="form-control" 
             id="title" 
             name="listing[title]" 
-            placeholder="Enter a catchy title" 
+            placeholder="Enter a catchy title"
+            required 
           >
+          <div class="valid-feedback">Looks Good</div>  <!--This will add the meaages for our new functionality...when we fill the info correct-->
         </div>
 
         <!-- Description -->
@@ -57,8 +60,10 @@
             id="description" 
             name="listing[description]" 
             rows="2" 
-            placeholder="Enter description"           
+            placeholder="Enter description"     
+            required       
           ></textarea>
+          <div class="invalid-feedback">Please enter short description</div>  <!--This will add the messages for our new functionality...when we fill the info incorrect-->
         </div>
 
         <!-- Image -->
@@ -82,8 +87,10 @@
               class="form-control" 
               id="price" 
               name="listing[price]" 
-              placeholder="1200"          
+              placeholder="1200"  
+              required         
             >
+            <div class="invalid-feedback">Please enter valid price</div>
           </div>
           <div class="col-md-6">
             <label for="country" class="form-label">Country</label>
@@ -92,8 +99,10 @@
               class="form-control" 
               id="country" 
               name="listing[country]" 
-              placeholder="India"               
+              placeholder="India"  
+              required              
             >
+            <div class="invalid-feedback">Please enter valid country</div>
           </div>
         </div>
 
@@ -105,8 +114,10 @@
             class="form-control" 
             id="location" 
             name="listing[location]" 
-            placeholder="Nashik,Maharashtra"             
+            placeholder="Nashik,Maharashtra"     
+            required         
           >
+          <div class="invalid-feedback">Please enter valid location</div>
         </div>
 
         <!-- Submit -->

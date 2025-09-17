@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Listing = require("./models/listing.js");
+const wrapAsync = require("./utils/wrapAsync");
 
 app.set("view engine","ejs");
 app.engine("ejs",ejsMate);
@@ -62,16 +63,26 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 //Create Route(After new.ejs form submission creating new listing in db)
-app.post("/listings", async (req, res) => {
-    // const {title,description,image,...} = req.body; oR
-  const newListing = new Listing(req.body.listing);
-  try{
+
+// app.post("/listings", async (req, res,next) => {
+//     // const {title,description,image,...} = req.body; oR
+//   const newListing = new Listing(req.body.listing);
+//   try{
+//     await newListing.save();
+//     res.redirect("/listings");
+//   }catch(err){
+//     // console.log(err);
+//     next(err);
+//   }
+// });
+
+app.post("/listings",
+  wrapAsync(async(req,res,next)=>{
+    const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
-  }catch(err){
-    console.log(err);
-  }
-});
+  })
+)
 
 //Edit Route(Form for editing)
 app.get("/listings/:id/edit", async (req, res) => {
@@ -108,6 +119,12 @@ app.delete("/listings/:id", async (req, res) => {
     }
 });
 
+
+app.use((err,req,res,next)=>{
+  res.send("something went wrong");
+})
+
+// Express default error handler also present Here
 
 app.listen(port,(req,res)=>{
     console.log("Server is started and listning at port 3000");

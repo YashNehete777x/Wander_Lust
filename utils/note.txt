@@ -1,0 +1,1 @@
+Put in utils/ any small, reusable piece of code (errors, validation, wrappers, helpers, service configs) that doesn’t fit cleanly into routes, models, or middleware.
