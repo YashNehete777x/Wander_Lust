@@ -25,7 +25,7 @@ main()
 })
 .catch((err)=>{
     console.log(err);
-})
+});
 
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
@@ -54,7 +54,7 @@ app.get("/listings",
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
   })
-)
+);
 
 //New Route(Ejs form for creating new listing)
 
@@ -66,7 +66,7 @@ app.get("/listings/new",
   wrapAsync(async (req,res,next)=>{
     res.render("listings/new.ejs");
   })
-)
+);
 
 //Show Route(Shows particular listing)
 
@@ -87,7 +87,7 @@ app.get("/listings/:id",
     const listing = await Listing.findById(id);
     res.render("listings/show.ejs", { listing });
   })
-)
+);
 
 //Create Route(After new.ejs form submission creating new listing in db)
 
@@ -112,7 +112,7 @@ app.post("/listings",
     await newListing.save();
     res.redirect("/listings");
   })
-)
+);
 
 //Edit Route(Form for editing)
 
@@ -133,7 +133,7 @@ app.get("/listings/:id/edit",
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
   })
-)
+);
 
 //Update Route(Taking data of edit forma and updating)
 
@@ -157,7 +157,7 @@ app.put("/listings/:id",
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Spread operator used Here(...) 
     res.redirect(`/listings/${id}`);
   })
-)
+);
 
 //Delete Route(deleting particular listing)
 
@@ -181,21 +181,22 @@ app.delete("/listings/:id",
     console.log(deletedListing);
     res.redirect("/listings");
   })
-)
+);
 
 
 app.use((req,res,next)=>{  // If our route dosent match to all the above routes then we will throw our custom error
   next(new ExpressError(404,"Page not found!"))
-})
+});
 
 app.use((err,req,res,next)=>{
   const {status=500,message="something went wrong"} = err;
-  res.status(status).send(message);
-})
+  // res.status(status).send(message);
+  res.status(status).render("error",{err});
+});
 
 // Express default error handler also present Here
 
 app.listen(port,(req,res)=>{
     console.log("Server is started and listning at port 3000");
-})
+});
 

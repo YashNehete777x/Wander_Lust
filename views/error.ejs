@@ -1,0 +1,23 @@
+<% layout("layouts/boilerplate") %>
+
+<!--Original alert code of bootstrap-->
+<!-- <div class="alert alert-danger" role="alert">
+  A simple danger alert—check it out!
+</div> -->
+
+<!--My modification-->
+<!-- <body>
+    <div class="alert alert-danger" role="alert">
+        <p> <%= err.message %> </p>
+    </div>
+</body> -->
+
+<!--Got from AI-->
+<body>
+  <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="alert alert-danger shadow-lg rounded-3 p-4 w-50 text-center" role="alert">
+      <h4 class="alert-heading mb-3">⚠️ Oops! Something went wrong</h4>
+      <p class="mb-0 fs-5"><%= err.message %></p>
+    </div>
+  </div>
+</body>
