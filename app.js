@@ -6,7 +6,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const {listingSchema,reviewSchema} = require("./schema.js");
 const Listing = require("./models/listing.js");
+const Review = require("./models/review")
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
 
@@ -18,6 +20,31 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname,"public")));
 app.use(methodOverride("_method"));
+
+const validateListing = (req,res,next)=>{
+  // const result = listingSchema.validate(req.body);
+  // console.log(result);
+  // if(result.error){
+  //   throw new ExpressError(400,result.error);
+  // }
+  const {error} = listingSchema.validate(req.body);
+  if(error){
+    throw new ExpressError(400,error);
+  }
+  else{
+    next();
+  }
+}
+
+const validateReview = (req,res,next)=>{
+  const {error} = reviewSchema.validate(req.body);
+  if(error){
+    throw new ExpressError(400,error);
+  }
+  else{
+    next();
+  }
+}
 
 main()
 .then((res)=>{
@@ -84,7 +111,7 @@ app.get("/listings/new",
 app.get("/listings/:id",
   wrapAsync(async (req,res,next)=>{
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
   })
 );
@@ -103,12 +130,30 @@ app.get("/listings/:id",
 //   }
 // });
 
+
+// Commented things in the post method is the 1st way for schema validation(2nd best),second is Mongoose schema validation(not recommended),and third is joi schema validation(Best practice)
 app.post("/listings",
+  validateListing,
   wrapAsync(async (req,res,next)=>{
-    if(!req.body.listing){ // Thsis when we send a req by hoop/postman without a req body
-      throw new Error(400,"Send valid data for listing!");
-    }
+    // if(!req.body.listing){ // Thsis when we send a req by hoop/postman without a req body
+    //   throw new ExpressError(400,"Send valid data for listing!");
+    // }
     const newListing = new Listing(req.body.listing);
+    // if(!newListing.title){
+    //   throw new ExpressError(400,"Title is missing");
+    // }
+    // if(!newListing.description){
+    //   throw new ExpressError(400,"Descrription is missing");
+    // }
+    // if(!newListing.price){
+    //   throw new ExpressError(400,"price is missing");
+    // }
+    // if(!newListing.country){
+    //   throw new ExpressError(400,"country is missing");
+    // }
+    // if(!newListing.location){
+    //   throw new ExpressError(400,"location is missing");
+    // }
     await newListing.save();
     res.redirect("/listings");
   })
@@ -149,10 +194,11 @@ app.get("/listings/:id/edit",
 // });
 
 app.put("/listings/:id",
+  validateListing,
   wrapAsync(async (req,res,next)=>{
-    if(!req.body.listing){ // Thsis when we send a req by hoop/postman without a req body
-      throw new Error(400,"Send valid data for listing!");
-    }
+    // if(!req.body.listing){ // Thsis when we send a req by hoop/postman without a req body
+    //   throw new Error(400,"Send valid data for listing!");
+    // }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Spread operator used Here(...) 
     res.redirect(`/listings/${id}`);
@@ -176,12 +222,40 @@ app.put("/listings/:id",
 
 app.delete("/listings/:id",
   wrapAsync(async (req,res,next)=>{
-    let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
+    // let { id } = req.params;
+    // let deletedListing = await Listing.findByIdAndDelete(id);
+    // console.log(deletedListing);
+    // res.redirect("/listings");
+
+    let {id} = req.params;
+    const listing = await Listing.findById(id);
+    await Review.deleteMany({_id:{$in:listing.reviews}});
+    // await Listing.deleteOne({_id:id});
+    await Listing.findByIdAndDelete(id);
+
     res.redirect("/listings");
   })
 );
+
+
+app.post("/listings/:id/review",validateReview,wrapAsync(async (req,res,next)=>{
+  const {id} = req.params;
+  const newReview = new Review(req.body.review);
+  const listing = await Listing.findById(id);
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+
+  res.redirect(`/listings/${id}`);
+}));
+
+app.delete("/listings/:listingId/reviews/:reviewId",wrapAsync(async (req,res,next)=>{
+  const {listingId,reviewId} = req.params;
+  await Listing.findByIdAndUpdate(listingId,{$pull:{reviews:reviewId}});
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/listings/${listingId}`);
+}));
+
 
 
 app.use((req,res,next)=>{  // If our route dosent match to all the above routes then we will throw our custom error

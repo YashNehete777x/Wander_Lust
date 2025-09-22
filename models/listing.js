@@ -23,6 +23,12 @@ const listingSchema = new Schema({
   },
   location: String,
   country: String,
+  reviews: [ // One to many (case)
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review" // Model name
+    }
+  ]
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

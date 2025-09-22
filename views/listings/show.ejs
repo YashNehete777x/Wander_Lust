@@ -39,6 +39,34 @@
 </body> -->
 
 <!--After modifying bootstrap card-->
+<!-- <body>
+  <div class="container my-5 d-flex justify-content-center">
+    <div class="card custom-show-card">
+      <img src="<%= listing.image %>" class="card-img-top" alt="image">
+
+      <div class="card-body">
+        <h5 class="card-title"><%= listing.title %></h5>
+        <p class="card-text"><%= listing.description %></p>
+      </div>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+        <li class="list-group-item"><%= listing.location %></li>
+        <li class="list-group-item"><%= listing.country %></li>
+      </ul>
+
+      <div class="card-body custom-btn-group">
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger rounded-pill m-0">Edit</a>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline m-0">
+          <button class="btn btn-dark rounded-pill m-0">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body> -->
+
+
+
 <body>
   <div class="container my-5 d-flex justify-content-center">
     <div class="card custom-show-card">
@@ -63,4 +91,75 @@
       </div>
     </div>
   </div>
+
+  <!-- Review form -->
+  <div class="container my-5 d-flex justify-content-center">
+    <div class="card w-75 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title text-center">Add a Review</h5>
+        <form action="/listings/<%= listing._id %>/review" method="POST" novalidate class="needs-validation">
+
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating (1–5)</label>
+            <select id="rating" name="review[rating]" class="form-select" required>
+              <option value="">Choose...</option>
+              <option value="1">1 ★</option>
+              <option value="2">2 ★★</option>
+              <option value="3">3 ★★★</option>
+              <option value="4">4 ★★★★</option>
+              <option value="5">5 ★★★★★</option>
+            </select>
+            <div class="invalid-feedback">Provide Rating</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea id="comment" name="review[comment]" rows="3" class="form-control" placeholder="Write your review..." required></textarea>
+            <div class="invalid-feedback">Please write review</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary rounded-pill">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="container my-5">
+    <h4 class="mb-3 text-center">Reviews</h4>
+
+    <% if(listing.reviews.length === 0) { %>
+      <p class="text-muted text-center">No reviews yet. Be the first to review!</p>
+    <% } else { %>
+      <div class="row justify-content-center">
+        <% listing.reviews.forEach(review => { %>
+          <div class="col-md-6 mb-3">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <p class="mb-1">
+                  <% for(let i = 0; i < review.rating; i++) { %> 
+                    ★
+                  <% } %>
+                  <% for(let i = review.rating; i < 5; i++) { %> 
+                    ☆
+                  <% } %>
+                </p>
+                <p class="card-text"><%= review.comment %></p>
+                <small class="text-muted">
+                  <%= review.date ? new Date(review.date).toLocaleDateString() : "" %>
+                </small>
+
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="mt-2">
+                  <button class="btn btn-dark btn-sm rounded-pill">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+
 </body>
+
