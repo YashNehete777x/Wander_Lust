@@ -9,6 +9,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const listings = require("./routes/listing");
 const reviews = require("./routes/review");
+const session = require("express-session");
 
 
 app.set("view engine","ejs");
@@ -19,6 +20,17 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname,"public")));
 app.use(methodOverride("_method"));
 
+const sessionOptions = {
+  secret:"mysupersecretkey123",
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+    expires:Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge:7 * 24 * 60 * 60 * 1000
+  }
+};
+
+app.use(session(sessionOptions));
 
 main()
 .then((res)=>{
