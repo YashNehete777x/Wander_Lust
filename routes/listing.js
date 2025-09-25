@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
+const Review = require("../models/review");
 const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/ExpressError");
 
@@ -72,7 +73,13 @@ router.get("/:id",
   wrapAsync(async (req,res,next)=>{
     let { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
-    res.render("listings/show.ejs", { listing });
+    if(!listing){
+      req.flash("error","Listing trying to access does not exits");
+      res.redirect("/listings");
+    }
+    else{
+      res.render("listings/show.ejs", { listing });
+    }
   })
 );
 
@@ -115,6 +122,7 @@ router.post("/",
     //   throw new ExpressError(400,"location is missing");
     // }
     await newListing.save();
+    req.flash("success","Listing Saved successfully");
     res.redirect("/listings");
   })
 );
@@ -136,7 +144,13 @@ router.get("/:id/edit",
   wrapAsync(async (req,res,next)=>{
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
+    if(!listing){
+      req.flash("error","Listing trying to Edit does not exits");
+      res.redirect("/listings");
+    }
+    else{
+      res.render("listings/edit.ejs", { listing });
+    }
   })
 );
 
@@ -161,6 +175,7 @@ router.put("/:id",
     // }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Spread operator used Here(...) 
+    req.flash("success","Listing Edited successfully");
     res.redirect(`/listings/${id}`);
   })
 );
@@ -189,9 +204,15 @@ router.delete("/:id",
 
     let {id} = req.params;
     const listing = await Listing.findById(id);
-    await Review.deleteMany({_id:{$in:listing.reviews}});
+    if(listing.reviews.length > 0){
+      await Review.deleteMany({
+      _id: { $in: listing.reviews }
+    });
+
+    }
     // await Listing.deleteOne({_id:id});
     await Listing.findByIdAndDelete(id);
+    req.flash("success","Listing Deleted successfully");
 
     res.redirect("/listings");
   })

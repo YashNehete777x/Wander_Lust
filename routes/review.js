@@ -19,20 +19,22 @@ const validateReview = (req,res,next)=>{
 
 
 router.post("/",validateReview,wrapAsync(async (req,res,next)=>{
-  const {id} = req.params;
+  const {listingId} = req.params;
   const newReview = new Review(req.body.review);
-  const listing = await Listing.findById(id);
+  const listing = await Listing.findById(listingId);
   listing.reviews.push(newReview);
   await newReview.save();
+  req.flash("success","Review Saved successfully");
   await listing.save();
 
-  res.redirect(`/listings/${id}`);
+  res.redirect(`/listings/${listingId}`);
 }));
 
 router.delete("/:reviewId",wrapAsync(async (req,res,next)=>{
   const {listingId,reviewId} = req.params;
   await Listing.findByIdAndUpdate(listingId,{$pull:{reviews:reviewId}});
   await Review.findByIdAndDelete(reviewId);
+  req.flash("success","Review deleted successfully");
   res.redirect(`/listings/${listingId}`);
 }));
 

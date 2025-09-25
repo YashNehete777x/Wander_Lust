@@ -10,6 +10,7 @@ const ExpressError = require("./utils/ExpressError");
 const listings = require("./routes/listing");
 const reviews = require("./routes/review");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 
 app.set("view engine","ejs");
@@ -31,6 +32,13 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next)=>{
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  next();
+});
 
 main()
 .then((res)=>{
@@ -49,9 +57,8 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
-
 app.use("/listings",listings);
-app.use("/listings/:id/review",reviews);
+app.use("/listings/:listingId/reviews",reviews);
 
 
 app.use((req,res,next)=>{  // If our route dosent match to all the above routes then we will throw our custom error
